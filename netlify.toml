@@ -1,21 +1,17 @@
-# Este archivo le dice a Netlify la configuración de despliegue.
+# Configuración para el despliegue en Netlify
 
-# Configuración del "Build" (construcción del sitio)
 [build]
-  # La carpeta que contiene tu archivo index.html.
+  # Directorio que contiene los archivos del sitio a publicar.
   publish = "public"
   
-  # Especificamos variables de entorno para el build
+  # Variables de entorno para el proceso de build.
   [build.environment]
-    # Forzamos el uso de la versión 18 de Node.js, que es una versión estable (LTS).
+    # Especifica una versión estable de Node.js.
     NODE_VERSION = "18"
 
-# Configuración de las funciones serverless.
 [functions]
-  # El directorio de las funciones.
+  # Directorio donde se encuentran las funciones serverless.
   directory = "netlify/functions"
   
-  # **MEJORA CLAVE**: Aumentamos el tiempo de espera de la función a 25 segundos.
-  # Esto le da a la IA más tiempo para procesar páginas complejas.
+  # Aumenta el tiempo máximo de ejecución de las funciones a 25 segundos.
   timeout = 25
-

@@ -1,17 +1,9 @@
-# Configuración para el despliegue en Netlify
-
 [build]
-  # Directorio que contiene los archivos del sitio a publicar.
   publish = "public"
-  
-  # Variables de entorno para el proceso de build.
   [build.environment]
-    # Especifica una versión estable de Node.js.
     NODE_VERSION = "18"
 
 [functions]
-  # Directorio donde se encuentran las funciones serverless.
   directory = "netlify/functions"
-  
-  # Aumenta el tiempo máximo de ejecución de las funciones a 25 segundos.
   timeout = 25
+

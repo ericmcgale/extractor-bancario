@@ -3,7 +3,7 @@
 # Configuración del "Build" (construcción del sitio)
 [build]
   # El "Publish directory" es la carpeta que contiene tu archivo index.html.
-  # Usaremos "public" como el nombre estándar y seguro para nuestra carpeta.
+  # Ahora esta carpeta estará en la raíz del repositorio.
   publish = "public"
   
   # Especificamos variables de entorno para el build
@@ -13,5 +13,6 @@
 
 # Configuración de las funciones serverless.
 [functions]
+  # El directorio de las funciones también estará en la raíz del repositorio.
   directory = "netlify/functions"
 

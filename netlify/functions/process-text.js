@@ -1,21 +1,24 @@
-// Importamos 'node-fetch' que declaramos en package.json
 const fetch = require('node-fetch');
 
 exports.handler = async function(event) {
-    // Solo permitimos peticiones POST
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
     try {
-        const { text } = JSON.parse(event.body);
+        if (!event.body) {
+            throw new Error('El cuerpo de la solicitud llegó vacío.');
+        }
+
+        const { text, page } = JSON.parse(event.body);
+        const pageNumForLog = page ? ` (página ${page})` : '';
         const apiKey = process.env.GOOGLE_API_KEY;
 
         if (!apiKey) {
             throw new Error('La clave API de Google no está configurada en las variables de entorno de Netlify.');
         }
         if (!text) {
-            throw new Error('No se proporcionó texto para procesar.');
+            throw new Error(`No se proporcionó texto para procesar${pageNumForLog}.`);
         }
 
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
@@ -39,7 +42,6 @@ exports.handler = async function(event) {
 
         const payload = {
             contents: [{ parts: [{ text: prompt }] }],
-            // **MEJORA CLAVE**: Forzamos a la IA a que responda directamente en formato JSON.
             generationConfig: {
                 "responseMimeType": "application/json"
             }
@@ -54,28 +56,26 @@ exports.handler = async function(event) {
         if (!response.ok) {
             const errorBody = await response.json().catch(() => ({}));
             const detailedError = errorBody.error?.message || response.statusText;
-            throw new Error(`La llamada a la API falló con estado ${response.status}: ${detailedError}`);
+            throw new Error(`La llamada a la API falló con estado ${response.status}${pageNumForLog}: ${detailedError}`);
         }
 
         const result = await response.json();
         
         if (!result.candidates || result.candidates.length === 0) {
             const blockReason = result.promptFeedback?.blockReason || 'desconocida';
-            throw new Error(`La solicitud fue bloqueada por la API de Google. Razón: ${blockReason}.`);
+            throw new Error(`La solicitud fue bloqueada por la API de Google${pageNumForLog}. Razón: ${blockReason}.`);
         }
 
         const candidate = result.candidates[0];
         const rawText = candidate?.content?.parts?.[0]?.text;
 
         if (!rawText) {
-            // Si la IA no devuelve nada, devolvemos un array vacío para evitar errores.
             return {
                 statusCode: 200,
                 body: JSON.stringify([]), 
             };
         }
-
-        // Devolvemos el texto de la IA, que ahora debería ser un JSON limpio.
+        
         return {
             statusCode: 200,
             body: rawText, 
@@ -89,3 +89,4 @@ exports.handler = async function(event) {
         };
     }
 };
+

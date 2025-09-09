@@ -2,8 +2,7 @@
 
 # Configuración del "Build" (construcción del sitio)
 [build]
-  # El "Publish directory" es la carpeta que contiene tu archivo index.html.
-  # Ahora esta carpeta estará en la raíz del repositorio.
+  # La carpeta que contiene tu archivo index.html.
   publish = "public"
   
   # Especificamos variables de entorno para el build
@@ -13,6 +12,10 @@
 
 # Configuración de las funciones serverless.
 [functions]
-  # El directorio de las funciones también estará en la raíz del repositorio.
+  # El directorio de las funciones.
   directory = "netlify/functions"
+  
+  # **MEJORA CLAVE**: Aumentamos el tiempo de espera de la función a 25 segundos.
+  # Esto le da a la IA más tiempo para procesar páginas complejas.
+  timeout = 25
 

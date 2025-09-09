@@ -6,7 +6,7 @@ exports.handler = async function(event) {
     }
 
     try {
-        // **MEJORA CLAVE**: Añadido registro para depuración.
+        // Registro para depuración.
         console.log("Función 'process-text' iniciada. Cuerpo de la solicitud recibido:", event.body);
 
         if (!event.body) {
@@ -84,7 +84,7 @@ exports.handler = async function(event) {
         }
 
         const candidate = result.candidates[0];
-        const rawText = candidate?.content?.parts?.[0]?.text;
+        const rawText = candidate?.content?.parts?[0]?.text;
 
         if (!rawText) {
             return {
@@ -106,6 +106,8 @@ exports.handler = async function(event) {
         };
     }
 };
+
+
 
 
 

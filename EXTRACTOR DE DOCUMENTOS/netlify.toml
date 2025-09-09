@@ -2,8 +2,12 @@
 
 # Configuración del "Build" (construcción del sitio)
 [build]
-  # El "Publish directory" es la carpeta que contiene tu archivo index.html.
-  # Usaremos "public" como el nombre estándar y seguro para nuestra carpeta.
+  # El "Base directory" es la carpeta raíz de tu proyecto dentro del repositorio de GitHub.
+  # Netlify "entrará" en esta carpeta antes de buscar el resto.
+  base = "EXTRACTOR DE DOCUMENTOS"
+
+  # El "Publish directory" es la carpeta que contiene tu archivo index.html,
+  # relativa al "Base directory".
   publish = "public"
   
   # Especificamos variables de entorno para el build
@@ -13,5 +17,6 @@
 
 # Configuración de las funciones serverless.
 [functions]
+  # El directorio de las funciones también es relativo al "Base directory".
   directory = "netlify/functions"
 

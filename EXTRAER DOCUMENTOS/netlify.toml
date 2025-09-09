@@ -5,6 +5,11 @@
   # El "Publish directory" es la carpeta que contiene tu archivo index.html.
   # Asegúrate de que este nombre coincida EXACTAMENTE con el nombre de la carpeta en tu GitHub.
   publish = "EXTRAER DOCUMENTOS"
+  
+  # Especificamos variables de entorno para el build
+  [build.environment]
+    # Forzamos el uso de la versión 18 de Node.js, que es una versión estable (LTS).
+    NODE_VERSION = "18"
 
 # Configuración de las funciones serverless.
 [functions]

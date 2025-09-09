@@ -1,9 +1,9 @@
 [build]
   publish = "public"
-  [build.environment]
-    NODE_VERSION = "18"
+
+[build.environment]
+  NODE_VERSION = "18"
 
 [functions]
   directory = "netlify/functions"
   timeout = 25
-

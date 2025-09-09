@@ -1,7 +1,5 @@
 // --- Este es nuestro intermediario seguro (Función Serverless) ---
-
-// Importamos 'fetch' para poder hacer llamadas a otras APIs desde esta función
-const fetch = require('node-fetch');
+// NOTA: Se ha eliminado la dependencia 'node-fetch' ya que no es necesaria en el entorno de Netlify.
 
 // Esta es la función principal que Netlify ejecutará
 exports.handler = async function(event) {

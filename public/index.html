@@ -168,10 +168,11 @@
 
                     const page = await pdf.getPage(i);
                     const textContent = await page.getTextContent();
-                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    const pageText = textContent.items.map(item => item.str).join(' ').trim();
 
-                    if (!pageText || pageText.trim().length < 50) {
-                        console.log(`Página ${i} omitida por falta de contenido.`);
+                    // **MEJORA CLAVE**: Verificación más robusta para ignorar páginas vacías.
+                    if (typeof pageText !== 'string' || pageText.length < 50) {
+                        console.log(`Página ${i} omitida por falta de contenido de texto relevante.`);
                         continue;
                     }
 
@@ -182,7 +183,7 @@
                 }
                 
                 extractedData = allTransactions;
-                statusText.textContent = 'Procesando respuesta...';
+                statusText.textContent = 'Procesando respuesta final...';
                  if (!Array.isArray(extractedData)) {
                     throw new Error("La respuesta final no es un formato de tabla válido.");
                 }
@@ -212,7 +213,6 @@
                  const data = await response.json();
                  return data;
             } catch (error) {
-                // Captura el error "Unexpected end of JSON input" y lo hace más claro
                 console.error("Error al analizar JSON de la respuesta del servidor:", error);
                 throw new Error(`La respuesta del servidor para la página ${pageNum} llegó incompleta o mal formada. Esto puede ocurrir si la página es muy compleja y excede el tiempo de espera.`);
             }
@@ -308,3 +308,4 @@
     </script>
 </body>
 </html>
+
